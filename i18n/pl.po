@@ -1,0 +1,26 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* project_timesheet_holidays_fix
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-08-18 00:00+0000\n"
+"PO-Revision-Date: 2026-08-18 00:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: project_timesheet_holidays_fix
+#: model:ir.model.constraint,message:project_timesheet_holidays_fix.constraint_account_analytic_line_holiday_timesheet_unique
+msgid "A time-off timesheet entry already exists for this leave, employee and day."
+msgstr "Wpis karty pracy dla czasu wolnego już istnieje dla tego urlopu, pracownika i dnia."
+
+#. module: project_timesheet_holidays_fix
+#: model:ir.model.constraint,message:project_timesheet_holidays_fix.constraint_account_analytic_line_global_leave_timesheet_unique
+msgid "A time-off timesheet entry already exists for this public holiday, employee and day."
+msgstr "Wpis karty pracy dla czasu wolnego już istnieje dla tego dnia wolnego od pracy, pracownika i dnia."
