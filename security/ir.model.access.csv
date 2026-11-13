@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_public_holiday_timesheet_skip_manager,public.holiday.timesheet.skip manager,model_public_holiday_timesheet_skip,hr_timesheet.group_timesheet_manager,1,1,1,1

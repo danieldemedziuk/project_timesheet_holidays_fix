@@ -30,6 +30,12 @@ class HrEmployee(models.Model):
             groupby=['company_id'],
             aggregates=['id:recordset'],
         )))
+        # Days the employee removed the holiday entry on purpose stay removed
+        # when the entries are regenerated (calendar change, unarchive).
+        skipped = {
+            (skip.employee_id.id, skip.date)
+            for skip in self.env['public.holiday.timesheet.skip'].sudo().search([('employee_id', 'in', employees.ids)])
+        }
         for employee in employees:
             if not employee.active:
                 continue
@@ -40,6 +46,8 @@ class HrEmployee(models.Model):
             for global_time_off in global_leaves:
                 per_day = work_hours_data[employee.resource_calendar_id.id][global_time_off.id]
                 for index, (day_date, work_hours_count) in enumerate(per_day):
+                    if (employee.id, day_date) in skipped:
+                        continue
                     lines_vals.append(
                         global_time_off._timesheet_prepare_line_values(
                             index,

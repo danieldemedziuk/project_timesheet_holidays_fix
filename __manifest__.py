@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Project Timesheet Holidays Fix',
-    'version': '17.0.1.0.0',
+    'version': '17.0.1.1.0',
     'author': 'DSquare Net',
     'license': 'LGPL-3',
     'sequence': 145,
@@ -37,6 +37,12 @@ This module:
   PostgreSQL treats NULL as distinct in unique constraints, so this only
   ever constrains actual time-off placeholder rows, never regular
   timesheet/cost lines.
+- Backfills missing public-holiday entries (daily cron, plus a one-time
+  run from 2026-11-11 on upgrade): upstream only generates them when the
+  holiday, employee or calendar is created/changed. Days with booked work,
+  an approved sheet or an existing holiday entry are skipped;
+  holiday hours set to 0 are remembered in
+  public.holiday.timesheet.skip and not regenerated.
 - One-time cleanup (pre_init_hook, so it runs before the constraint above
   is created): removes orphaned placeholder rows left behind by bug #1,
   and de-duplicates the handful of remaining true duplicates.
@@ -44,8 +50,13 @@ This module:
     'category': 'Human Resources',
     'depends': [
         'project_timesheet_holidays',
+        'hr_timesheet_sheet',
     ],
-    'data': [],
+    'data': [
+        'security/ir.model.access.csv',
+        'data/ir_cron.xml',
+        'views/public_holiday_timesheet_skip_views.xml',
+    ],
     'pre_init_hook': 'pre_init_hook',
     'auto_install': False,
     'installable': True,

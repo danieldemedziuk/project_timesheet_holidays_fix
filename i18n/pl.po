@@ -24,3 +24,54 @@ msgstr "Wpis karty pracy dla czasu wolnego już istnieje dla tego urlopu, pracow
 #: model:ir.model.constraint,message:project_timesheet_holidays_fix.constraint_account_analytic_line_global_leave_timesheet_unique
 msgid "A time-off timesheet entry already exists for this public holiday, employee and day."
 msgstr "Wpis karty pracy dla czasu wolnego już istnieje dla tego dnia wolnego od pracy, pracownika i dnia."
+
+#. module: project_timesheet_holidays_fix
+#: model:ir.model,name:project_timesheet_holidays_fix.model_public_holiday_timesheet_skip
+msgid "Public holiday hours removed on purpose"
+msgstr "Godziny święta celowo usunięte z karty pracy"
+
+#. module: project_timesheet_holidays_fix
+#: model:ir.actions.act_window,name:project_timesheet_holidays_fix.public_holiday_timesheet_skip_action
+#: model:ir.ui.menu,name:project_timesheet_holidays_fix.menu_public_holiday_timesheet_skip
+msgid "Removed Public Holidays"
+msgstr "Usunięte święta"
+
+#. module: project_timesheet_holidays_fix
+#: model:ir.cron,cron_name:project_timesheet_holidays_fix.ir_cron_backfill_public_holiday_timesheets
+msgid "Timesheets: add missing public holiday entries"
+msgstr "Karty pracy: uzupełnij brakujące święta"
+
+#. module: project_timesheet_holidays_fix
+#: model:ir.model.constraint,message:project_timesheet_holidays_fix.constraint_public_holiday_timesheet_skip_employee_date_unique
+msgid "This public holiday is already marked as removed for this employee."
+msgstr "To święto jest już oznaczone jako usunięte u tego pracownika."
+
+#. module: project_timesheet_holidays_fix
+#: model:ir.model.fields,field_description:project_timesheet_holidays_fix.field_public_holiday_timesheet_skip__employee_id
+msgid "Employee"
+msgstr "Pracownik"
+
+#. module: project_timesheet_holidays_fix
+#: model:ir.model.fields,field_description:project_timesheet_holidays_fix.field_public_holiday_timesheet_skip__date
+msgid "Date"
+msgstr "Data"
+
+#. module: project_timesheet_holidays_fix
+#: model:ir.model.fields,field_description:project_timesheet_holidays_fix.field_public_holiday_timesheet_skip__global_leave_id
+msgid "Public Holiday"
+msgstr "Święto"
+
+#. module: project_timesheet_holidays_fix
+#: model:ir.model.fields,field_description:project_timesheet_holidays_fix.field_public_holiday_timesheet_skip__company_id
+msgid "Company"
+msgstr "Firma"
+
+#. module: project_timesheet_holidays_fix
+#: model_terms:ir.actions.act_window,help:project_timesheet_holidays_fix.public_holiday_timesheet_skip_action
+msgid "No public holiday hours were removed on purpose"
+msgstr "Żadne godziny świąt nie zostały celowo usunięte"
+
+#. module: project_timesheet_holidays_fix
+#: model_terms:ir.actions.act_window,help:project_timesheet_holidays_fix.public_holiday_timesheet_skip_action
+msgid "When the hours of a public holiday entry are set to 0, the day is listed here and the hours are not added back automatically. Delete the row here to let them be added again."
+msgstr "Gdy godziny święta w karcie pracy zostaną zmienione na 0, dzień trafia na tę listę i godziny nie są dodawane ponownie automatycznie. Usuń wiersz z listy, aby mogły zostać dodane znowu."
