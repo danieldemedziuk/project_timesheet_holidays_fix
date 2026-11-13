@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="public_holiday_timesheet_skip_view_tree" model="ir.ui.view">
+        <field name="name">public.holiday.timesheet.skip.tree</field>
+        <field name="model">public.holiday.timesheet.skip</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="date"/>
+                <field name="employee_id"/>
+                <field name="global_leave_id" readonly="1"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="public_holiday_timesheet_skip_action" model="ir.actions.act_window">
+        <field name="name">Removed Public Holidays</field>
+        <field name="res_model">public.holiday.timesheet.skip</field>
+        <field name="view_mode">tree</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No public holiday hours were removed on purpose</p>
+            <p>When the hours of a public holiday entry are set to 0, the day is listed here and the hours are not added back automatically. Delete the row here to let them be added again.</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_public_holiday_timesheet_skip"
+              action="public_holiday_timesheet_skip_action"
+              parent="hr_timesheet.hr_timesheet_menu_configuration"
+              groups="hr_timesheet.group_timesheet_manager"
+              sequence="90"/>
+</odoo>
