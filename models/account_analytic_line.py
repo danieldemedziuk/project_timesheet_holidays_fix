@@ -22,3 +22,37 @@ class AccountAnalyticLine(models.Model):
         ('global_leave_timesheet_unique', 'unique(global_leave_id, employee_id, date)',
          'A time-off timesheet entry already exists for this public holiday, employee and day.'),
     ]
+
+    def write(self, vals):
+        res = super().write(vals)
+        if 'unit_amount' in vals:
+            self.filtered('global_leave_id')._sync_public_holiday_skip()
+        return res
+
+    def _sync_public_holiday_skip(self):
+        """Upstream forbids deleting a public-holiday entry, so setting its
+        hours to 0 is how someone says "worked that day" (e.g. abroad).
+        Remember it, so regenerating the employee's holiday entries
+        (calendar change, unarchive) does not bring the hours back; giving
+        the hours back clears the mark."""
+        # sudo: bookkeeping of an edit the user is already allowed to make.
+        Skip = self.env['public.holiday.timesheet.skip'].sudo()
+        zeroed = self.filtered(lambda line: not line.unit_amount and line.employee_id)
+        restored = self - zeroed
+        if restored:
+            Skip.search([
+                ('employee_id', 'in', restored.employee_id.ids),
+                ('date', 'in', list(set(restored.mapped('date')))),
+            ]).filtered(lambda s: (s.employee_id, s.date) in {(l.employee_id, l.date) for l in restored}).unlink()
+        if zeroed:
+            existing = {(s.employee_id.id, s.date) for s in Skip.search([
+                ('employee_id', 'in', zeroed.employee_id.ids),
+                ('date', 'in', list(set(zeroed.mapped('date')))),
+            ])}
+            vals_list = []
+            for line in zeroed:
+                key = (line.employee_id.id, line.date)
+                if key not in existing:
+                    existing.add(key)
+                    vals_list.append({'employee_id': key[0], 'date': key[1], 'global_leave_id': line.global_leave_id.id})
+            Skip.create(vals_list)
